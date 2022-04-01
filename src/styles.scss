@@ -1,1 +1,42 @@
 /* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+  max-height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.width-100 {
+  width: 100%;
+}
+
+.spacer-flex {
+  flex: 1 1 auto;
+}
+
+.spacer-vertical {
+  padding: 5px 0px;
+}
+
+.bottom--30 {
+  bottom: -30px;
+}
+
+.mt-100 {
+  margin-top: 100px;
+}
+
+.mt-300 {
+  margin-top: 300px;
+}
+
+.center-horizontal {
+  position: absolute;
+  left: 50%;
+  -moz-transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+}

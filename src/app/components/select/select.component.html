@@ -1,0 +1,18 @@
+<mat-form-field class="width-100" appearance="legacy">
+  <mat-label>{{label}}</mat-label>
+  <mat-chip-list #chipList aria-label="Item selection" [disabled]="disabled">
+    <mat-chip *ngFor="let item of itemsSelected" (removed)="onRemove(item.value)">
+      {{item.value}}
+      <button matChipRemove>
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </mat-chip>
+    <input [placeholder]="placeholderText" #itemInput [formControl]="inputCtrl" [matAutocomplete]="auto"
+      [matChipInputFor]="chipList" [disabled]="isDisabled" (matChipInputTokenEnd)="onAdd($event)">
+  </mat-chip-list>
+  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onSelected($event.option.viewValue)">
+    <mat-option *ngFor="let item of itemsFiltered" [value]="item">
+      {{item.value}}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>

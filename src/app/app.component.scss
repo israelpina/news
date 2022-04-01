@@ -1,0 +1,38 @@
+$base-color: #f5f5f5;
+
+#navbar {
+  position: fixed;
+  width: 100vw;
+  top: 0;
+  z-index: 1000;
+
+  #filters_container {
+    background-color: $base-color;
+    border-bottom: 2px solid;
+    overflow: visible;
+
+    > div {
+      height: 220px;
+    }
+  }
+}
+
+#articles_container {
+  display: block;
+  padding: 40px;
+}
+
+#date_container {
+  position: fixed;
+  bottom: -21px;
+  right: 10px;
+  background-color: $base-color;
+
+  mat-icon {
+    position: absolute;
+    top: -6px;
+    right: 5px;
+    cursor: pointer;
+    color: rgba(0, 0, 0, 0.54);
+  }
+}

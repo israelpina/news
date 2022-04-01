@@ -1,18 +1,49 @@
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
-import { AppRoutingModule } from './app-routing.module';
+import { environment } from '../environments/environment.prod';
+import { ServiceWorkerModule } from '@angular/service-worker';
+
+import { MaterialModule } from 'src/material.module';
+import { DigitOnlyModule } from '@uiowa/digit-only';
+
+
 import { AppComponent } from './app.component';
+import { SelectComponent } from './components/select/select.component';
+import { ArticleCardComponent } from './components/article-card/article-card.component';
+import { DataService } from './services/data.service';
+import { NewsletterService } from './services/newsletter.service';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    SelectComponent,
+    ArticleCardComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    BrowserAnimationsModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MaterialModule,
+    DigitOnlyModule,
+    FlexLayoutModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // // Register the ServiceWorker as soon as the application is stable
+      // // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
   ],
-  providers: [],
+  providers: [
+    DataService,
+    NewsletterService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
