@@ -20,7 +20,7 @@
   <mat-expansion-panel id="filters_container" class="mat-elevation-z2" [expanded]="isFiltersExpanded">
     <div *ngIf="isFiltersExpanded">
       <div class="spacer-vertical"></div>
-      <app-select [label]="'Categories'" [items]="categoriesList" [maxItems]="3"
+      <app-select [label]="'Categories'" [items]="categoriesList" [maxItems]="5"
         (valuesChanges)="onCategoriesChanges()">
       </app-select>
       <app-select [label]="'Sources'" [items]="sourcesList" [maxItems]="10" [disabled]="isDisabledSource"></app-select>

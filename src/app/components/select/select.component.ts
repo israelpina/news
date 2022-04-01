@@ -52,7 +52,7 @@ export class SelectComponent implements OnInit, OnDestroy, OnChanges {
         .pipe(
           startWith(null),
           map((item: string | null) => (
-            item && typeof item === 'string' ? this._filter(item) : this.itemsAvailable
+            item && typeof item === 'string' ? this._filter(item) : this._itemsAvailable
           ))
         ).subscribe(data => {
           this.itemsFiltered = data;
@@ -62,12 +62,12 @@ export class SelectComponent implements OnInit, OnDestroy, OnChanges {
 
   private _filter(value: string): SelectListItem[] {
     const filterValue = value?.toLowerCase();
-    return this.itemsAvailable.filter(item => item.value.toLowerCase().includes(filterValue));
+    return this._itemsAvailable.filter(item => item.value.toLowerCase().includes(filterValue));
   }
   //#endregion
 
   //#region [Getters]
-  get itemsAvailable(): SelectListItem[] {
+  private get _itemsAvailable(): SelectListItem[] {
     return this.items.filter(item => !item.selected).slice();
   }
   get itemsSelected(): SelectListItem[] {
@@ -96,7 +96,7 @@ export class SelectComponent implements OnInit, OnDestroy, OnChanges {
     const VALUE = (event.value || '').trim();
     if (!VALUE) return;
 
-    const SELECTED = this.itemsAvailable.find(item => item.value === VALUE);
+    const SELECTED = this._itemsAvailable.find(item => item.value === VALUE);
     if (SELECTED) {
       this.onSelected(VALUE);
     }
@@ -106,7 +106,7 @@ export class SelectComponent implements OnInit, OnDestroy, OnChanges {
     const ITEM = this.items.find((item: SelectListItem) => item.value === value);
     if (ITEM) {
       ITEM.selected = true;
-      this.inputCtrl.setValue(null);
+      this._setInput(null);
       this.itemInput.nativeElement.value = '';
       this.valuesChanges.emit();
     }
@@ -116,8 +116,20 @@ export class SelectComponent implements OnInit, OnDestroy, OnChanges {
     const ITEM = this.items.find((item: SelectListItem) => item.value === value);
     if (ITEM) {
       ITEM.selected = false;
-      this.inputCtrl.setValue(this.inputCtrl.value);
+      this._setInput(this.inputCtrl.value);
       this.valuesChanges.emit();
+    }
+  }
+  //#endregion
+
+  //#region [Helpers]
+  private _setInput(value: any): void {
+    this.inputCtrl.setValue(value);
+    
+    if (this.isDisabled) {
+      this.inputCtrl.disable;
+    } else {
+      this.inputCtrl.enable;
     }
   }
   //#endregion
