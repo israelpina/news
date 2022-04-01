@@ -1,14 +1,14 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { SelectListItem } from 'src/app/models/select-list-item.interface';
-import { Source } from 'src/app/models/source.interface';
-import { Article } from './models/article.interface';
-import { FiltersSelected } from './models/filters-selected.interface';
-import { DataService } from 'src/app/services/data.service';
-import { NewsletterService } from './services/newsletter.service';
-import { SwPush } from '@angular/service-worker';
 import { environment } from 'src/environments/environment';
 import { Title } from '@angular/platform-browser';
+import { SwPush } from '@angular/service-worker';
+import { SelectListItem } from './models/select-list-item.interface';
+import { Source } from './models/source.interface';
+import { Article } from './models/article.interface';
+import { FiltersSelected } from './models/filters-selected.interface';
+import { DataService } from './services/data.service';
+import { NewsletterService } from './services/newsletter.service';
 
 @Component({
   selector: 'app-root',
