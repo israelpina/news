@@ -1,6 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { environment } from 'src/environments/environment';
+import { environment } from '../environments/environment';
 import { Title } from '@angular/platform-browser';
 import { SwPush } from '@angular/service-worker';
 import { SelectListItem } from './models/select-list-item.interface';

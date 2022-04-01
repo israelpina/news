@@ -8,7 +8,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { environment } from '../environments/environment.prod';
 import { ServiceWorkerModule } from '@angular/service-worker';
 
-import { MaterialModule } from 'src/material.module';
+import { MaterialModule } from '../material.module';
 import { DigitOnlyModule } from '@uiowa/digit-only';
 
 

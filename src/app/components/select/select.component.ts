@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { Subscription } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { SelectListItem } from 'src/app/models/select-list-item.interface';
+import { SelectListItem } from '../../models/select-list-item.interface';
 
 @Component({
   selector: 'app-select',
