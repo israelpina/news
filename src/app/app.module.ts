@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -17,6 +17,7 @@ import { SelectComponent } from './components/select/select.component';
 import { ArticleCardComponent } from './components/article-card/article-card.component';
 import { DataService } from './services/data.service';
 import { NewsletterService } from './services/newsletter.service';
+import { ApiKeyInterceptor } from './shared/interceptors/api-key.interceptor';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { NewsletterService } from './services/newsletter.service';
   ],
   providers: [
     DataService,
-    NewsletterService
+    NewsletterService,
+    { provide: HTTP_INTERCEPTORS, useClass: ApiKeyInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
