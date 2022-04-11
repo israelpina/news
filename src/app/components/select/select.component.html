@@ -7,7 +7,7 @@
         <mat-icon>cancel</mat-icon>
       </button>
     </mat-chip>
-    <input [placeholder]="placeholderText" #itemInput [formControl]="inputCtrl" [matAutocomplete]="auto"
+    <input [placeholder]="placeholderText" [(ngModel)]="filterText" [value]="filterText" [matAutocomplete]="auto"
       [matChipInputFor]="chipList" [disabled]="isDisabled" (matChipInputTokenEnd)="onAdd($event)">
   </mat-chip-list>
   <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onSelected($event.option.viewValue)">

@@ -5,7 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
-import { environment } from '../environments/environment.prod';
+import { environment } from '../environments/environment';
 import { ServiceWorkerModule } from '@angular/service-worker';
 
 import { MaterialModule } from '../material.module';

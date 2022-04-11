@@ -1,8 +1,7 @@
-import { Component, ElementRef, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { NgModel } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { Subscription } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
 import { SelectListItem } from '../../models/select-list-item.interface';
 
 @Component({
@@ -10,7 +9,7 @@ import { SelectListItem } from '../../models/select-list-item.interface';
   templateUrl: './select.component.html',
   styleUrls: ['./select.component.scss']
 })
-export class SelectComponent implements OnInit, OnDestroy, OnChanges {
+export class SelectComponent implements OnChanges, OnInit, AfterViewInit, OnDestroy {
   @Input() label: string = '';
   @Input() placeholder: string = 'Select';
   @Input() items: SelectListItem[] = [];
@@ -19,12 +18,12 @@ export class SelectComponent implements OnInit, OnDestroy, OnChanges {
 
   @Output() valuesChanges = new EventEmitter<void>();
 
-  @ViewChild('itemInput') itemInput!: ElementRef<HTMLInputElement>;
+  @ViewChild(NgModel) filterInput!: NgModel;
 
   //#region [Properties]
-  private _filteredSub!: Subscription;
+  private _filteredSub!: Subscription | undefined;
   itemsFiltered: SelectListItem[] = [];
-  inputCtrl = new FormControl();
+  filterText = '';
   //#endregion
 
   constructor() { }
@@ -32,37 +31,30 @@ export class SelectComponent implements OnInit, OnDestroy, OnChanges {
   //#region [Ng functions]
   ngOnChanges(changes: SimpleChanges): void {
     if (changes && changes['items'] && !changes['items'].firstChange) {
-      this.inputCtrl.setValue(this.inputCtrl.value);
+      this._setInput('');
     }
   }
 
   ngOnInit(): void {
+  }
+
+  ngAfterViewInit(): void {
     this._processFilterSubscription();
   }
 
   ngOnDestroy(): void {
-    this._filteredSub.unsubscribe();
+    this._filteredSub?.unsubscribe();
   }
   //#endregion  
 
   //#region [Init]
   private _processFilterSubscription() {
     if (!this._filteredSub) {
-      this._filteredSub = this.inputCtrl.valueChanges
-        .pipe(
-          startWith(null),
-          map((item: string | null) => (
-            item && typeof item === 'string' ? this._filter(item) : this._itemsAvailable
-          ))
-        ).subscribe(data => {
-          this.itemsFiltered = data;
-        });
+      this._filteredSub = this.filterInput.valueChanges?.subscribe(value => {
+        const DATA = value && typeof value === 'string' ? this._filter(value) : this._itemsAvailable;
+        this.itemsFiltered = DATA;
+      });
     }
-  }
-
-  private _filter(value: string): SelectListItem[] {
-    const filterValue = value?.toLowerCase();
-    return this._itemsAvailable.filter(item => item.value.toLowerCase().includes(filterValue));
   }
   //#endregion
 
@@ -106,8 +98,8 @@ export class SelectComponent implements OnInit, OnDestroy, OnChanges {
     const ITEM = this.items.find((item: SelectListItem) => item.value === value);
     if (ITEM) {
       ITEM.selected = true;
-      this._setInput(null);
-      this.itemInput.nativeElement.value = '';
+      this._setInput('');
+      // this.itemInput.nativeElement.value = '';
       this.valuesChanges.emit();
     }
   }
@@ -116,7 +108,7 @@ export class SelectComponent implements OnInit, OnDestroy, OnChanges {
     const ITEM = this.items.find((item: SelectListItem) => item.value === value);
     if (ITEM) {
       ITEM.selected = false;
-      this._setInput(this.inputCtrl.value);
+      this._setInput(this.filterInput.value);
       this.valuesChanges.emit();
     }
   }
@@ -124,13 +116,13 @@ export class SelectComponent implements OnInit, OnDestroy, OnChanges {
 
   //#region [Helpers]
   private _setInput(value: any): void {
-    this.inputCtrl.setValue(value);
-    
-    if (this.isDisabled) {
-      this.inputCtrl.disable;
-    } else {
-      this.inputCtrl.enable;
-    }
+    this.filterText = value;
+    this.filterInput.control.setValue(value);
+  }
+
+  private _filter(value: string): SelectListItem[] {
+    const filterValue = value?.toLowerCase();
+    return this._itemsAvailable.filter(item => item.value.toLowerCase().includes(filterValue));
   }
   //#endregion
 
